@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VMath;
+using VMath.Fur;
 
 namespace SimpleTest
 {

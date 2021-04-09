@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VMath
+namespace VMath.Fur
 {
     public class ABSolver
     {
@@ -12,6 +12,9 @@ namespace VMath
         double w;
         IList<double> x;
         IList<double> y;
+        double a0;
+        double[] ax;
+        double[] bx;
 
         /// <summary>
         /// initializes the coefficient solver for the Fourier series. must have the same list lengths (x and y).you must start the x coordinates from scratch. do not specify the last point
@@ -35,6 +38,7 @@ namespace VMath
                 this.x.Add(t);
                 this.y.Add(y[0]);
             }
+            InitABX();
         }
 
         /// <summary>
@@ -43,15 +47,23 @@ namespace VMath
         /// <returns></returns>
         public FurSolver GetSolver()
         {
-            double a0 = SolveA(0);
-            double[] ax = new double[po];
-            double[] bx = new double[po];
-            for (int j = 1; j < po; j++)
-            {
-                ax[j - 1] = SolveA(j);
-                bx[j - 1] = SolveB(j);
-            }
             return new FurSolver(a0, ax, bx, po, w);
+        }
+
+        /// <summary>
+        /// returns the coordinates of the signal spectrum
+        /// </summary>
+        /// <returns></returns>
+        public FRange GetAkFk()
+        {
+            FRange result = new FRange();
+            int l = ax.Length;
+            for(int i = 0; i < l; i++)
+            {
+                result.Ak.Add(Math.Sqrt(ax[i] * ax[i] + bx[i] * bx[i]));
+                result.Fk.Add(Math.Atan(bx[i] / ax[i]));
+            }
+            return result;
         }
 
         /// <summary>
@@ -62,14 +74,6 @@ namespace VMath
         public FXFY Solve(int per = 3)
         {
             FXFY result = new FXFY();
-            double a0 = SolveA(0);
-            double[] ax = new double[po];
-            double[] bx = new double[po];
-            for (int j = 1; j < po; j++)
-            {
-                ax[j-1] = SolveA(j);
-                bx[j-1] = SolveB(j);
-            }
             int ln = len * per;
             for (int i = 0; i < ln; i++)
             {
@@ -83,6 +87,18 @@ namespace VMath
                 result.FY.Add(s);
             }
             return result;
+        }
+
+        void InitABX()
+        {
+            a0 = SolveA(0);
+            ax = new double[po];
+            bx = new double[po];
+            for (int j = 1; j < po; j++)
+            {
+                ax[j - 1] = SolveA(j);
+                bx[j - 1] = SolveB(j);
+            }
         }
 
         double SolveA(double k)

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VMath
+namespace VMath.Fur
 {
     public class FXFY
     {

@@ -41,11 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ABSolver.cs" />
-    <Compile Include="FurSolver.cs" />
-    <Compile Include="FXFY.cs" />
+    <Compile Include="Fur\ABSolver.cs" />
+    <Compile Include="Fur\FRange.cs" />
+    <Compile Include="Fur\FurSolver.cs" />
+    <Compile Include="Fur\FXFY.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="X1X2.cs" />
+    <Compile Include="Fur\X1X2.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

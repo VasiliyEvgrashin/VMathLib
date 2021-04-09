@@ -1,4 +1,4 @@
-﻿namespace VMath
+﻿namespace VMath.Fur
 {
     public class X1X2
     {

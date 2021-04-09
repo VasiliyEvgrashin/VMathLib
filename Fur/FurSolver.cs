@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VMath
+namespace VMath.Fur
 {
     public class FurSolver
     {
