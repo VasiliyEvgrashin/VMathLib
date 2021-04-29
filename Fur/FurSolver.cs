@@ -2,6 +2,7 @@
 
 namespace VMath.Fur
 {
+    [Serializable]
     public class FurSolver
     {
         double a0;

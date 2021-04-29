@@ -12,12 +12,30 @@ namespace VMath.Neu
         public AFType AFType { get; }
 
         Func<double, double> func;
+        Func<double, double> pfunc;
+
+        public Func<double, double> Pfunc {
+            get
+            { 
+                if (AFType == AFType.th || AFType == AFType.Logistic)
+                {
+                    return pfunc;
+                } else
+                {
+                    return (d) => {
+                        double s = Summ();
+                        return pfunc(s);
+                    };
+                }
+            }
+        }
 
         public Neuron(AFType aftype)
         {
             Weights = new List<double>();
             AFType = aftype;
             func = AFDict.GetFunction(aftype);
+            pfunc = AFDict.GetPFunction(aftype);
         }
 
         void InitWeights(int len)
@@ -29,18 +47,24 @@ namespace VMath.Neu
             }
         }
 
+        public double Summ()
+        {
+            double s = 0;
+            int len = In.Count;
+            for (int i = 0; i < len; i++)
+            {
+                s += In[i] * Weights[i];
+            }
+            return s;
+        }
+
         public double Activation()
         {
             if (Weights.Count == 0)
             {
                 InitWeights(In.Count);
             }
-            double s = 0;
-            int len = In.Count;
-            for (int i = 0; i < len; i++)
-            {
-                s += In[i] * Weights[i]; 
-            }
+            double s = Summ();
             return func(s);
         }
 

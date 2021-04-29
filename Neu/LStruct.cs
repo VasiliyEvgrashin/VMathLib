@@ -41,7 +41,8 @@ namespace VMath.Neu
             int len = outl.Outs.Count;
             for (int i = 0; i < len; i++)
             {
-                double err = (outl.Outs[i] - etl[i]) * (outl.Outs[i] * (1 - outl.Outs[i]));
+                var pf = outl.Neurons[i].Pfunc;
+                double err = (outl.Outs[i] - etl[i]) * pf(outl.Outs[i]);
                 outl.Neurons[i].Error = err;
             }
             Refl(outl);
@@ -67,7 +68,8 @@ namespace VMath.Neu
                     {
                         double nerr = 0;
                         double y = layer.Outs[j];
-                        double yd = (y * (1 - y));
+                        var pf = layer.Neurons[j].Pfunc;
+                        double yd = pf(y);
                         int lnn = outl.Neurons.Count;
                         for (int i = 0; i < lnn; i++)
                         {
